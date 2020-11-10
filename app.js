@@ -15,11 +15,14 @@ const scissorsButton_img = document.getElementById('scissorsButton')
 const result_p = document.getElementById('result')
 const scores_p = document.getElementById('scores')
 
+/* Dar um feedback textual para a jogada do usuário e do computador | FEITO */
+
 // Modificar a cor do placar de acordo com o placar
 // verde se o usuário está ganhando
-// veremelho se o usuário está perdendo
+// vermelho se o usuário está perdendo
 // branco se estiver empatado
 // lembre-se das classes css green-glow e red-glow
+// FEITO
 
 /* 
 Dar feedback visual - nas bordas dos botões -
@@ -29,6 +32,36 @@ lembre-se também que a jogadaUsario tem como valor (paper, rock, scissors)
 e os botões tem como id (paperButton, rockButton e scissorsButton)
 talvez seja necessário fazer um getElementById para adicionar classe
 */
+
+// função para traduzir as jogadas
+function traduzirJogadas(jogada) {
+  switch(jogada){
+    case "paper":
+      return "papel";
+    case "rock":
+      return "pedra";
+    case "scissors":
+      return "tesoura";
+  }
+}
+
+function quemEstaGanhando() {
+  // usuário na frente
+  if(resultadoUsuario > resultadoComputador){
+    scores_p.classList = ""
+    scores_p.classList.add('green-glow')
+    scores_p.style.color = "#26ff63"
+  } else if ( resultadoUsuario < resultadoComputador) {
+    // perdendo
+    scores_p.classList = ""
+    scores_p.classList.add('red-glow')
+    scores_p.style.color = "#fc121b";
+  } else {
+    // empatado
+    scores_p.classList = ""
+    scores_p.style.color = "#ffffff";
+  }
+}
 
 
 // função responsável por fazer o jogo de jokenpo
@@ -46,6 +79,10 @@ function jokenpo(jogadaUsuario) {
       case "scissorspaper":
         resultadoUsuario++
         userScore_span.innerHTML = resultadoUsuario
+        quemEstaGanhando()
+        jogadaUsuario = traduzirJogadas(jogadaUsuario)
+        jogadaComputador = traduzirJogadas(jogadaComputador)
+        result_p.innerText = `O usuário jogou ${jogadaUsuario} e o computador jogou ${jogadaComputador}, vitória do usuário`
         break;
       // derrota do usuário: rockpaper, scissorsrock, paperscissors
       case "rockpaper":
@@ -53,11 +90,18 @@ function jokenpo(jogadaUsuario) {
       case "paperscissors":
         resultadoComputador++
         computerScore_span.innerText = resultadoComputador
+        quemEstaGanhando()
+        jogadaUsuario = traduzirJogadas(jogadaUsuario)
+        jogadaComputador = traduzirJogadas(jogadaComputador)
+        result_p.innerText = `O usuário jogou ${jogadaUsuario} e o computador jogou ${jogadaComputador}, vitória do computador`
         break;
       // empates
       case "rockrock":
       case "scissorsscissors":
       case "paperpaper":
+        jogadaUsuario = traduzirJogadas(jogadaUsuario)
+        jogadaComputador = traduzirJogadas(jogadaComputador)
+        result_p.innerText = `O usuário jogou ${jogadaUsuario} e o computador jogou ${jogadaComputador}, portanto empate`;
         break;
       default:
         alert("aconteceu algum erro")
