@@ -66,6 +66,10 @@ function quemEstaGanhando() {
 
 // função responsável por fazer o jogo de jokenpo
 function jokenpo(jogadaUsuario) {
+
+  // Capturando botão clicado:
+  let clickedButton = document.getElementById( `${jogadaUsuario}Button`);
+
   // gerando uma jogada aleatória do computador
   jogadasPossiveisComputador = ["paper", "rock", "scissors"]
   n = (Math.floor(Math.random() * 3))
@@ -80,6 +84,10 @@ function jokenpo(jogadaUsuario) {
         resultadoUsuario++
         userScore_span.innerHTML = resultadoUsuario
         quemEstaGanhando()
+        clickedButton.classList.add('green-glow');
+        setTimeout(
+          () => {clickedButton.classList.remove('green-glow')}
+          , 300);
         jogadaUsuario = traduzirJogadas(jogadaUsuario)
         jogadaComputador = traduzirJogadas(jogadaComputador)
         result_p.innerText = `O usuário jogou ${jogadaUsuario} e o computador jogou ${jogadaComputador}, vitória do usuário`
@@ -91,6 +99,10 @@ function jokenpo(jogadaUsuario) {
         resultadoComputador++
         computerScore_span.innerText = resultadoComputador
         quemEstaGanhando()
+        clickedButton.classList.add('red-glow');
+        setTimeout(
+          () => {clickedButton.classList.remove('red-glow')}
+          , 300);
         jogadaUsuario = traduzirJogadas(jogadaUsuario)
         jogadaComputador = traduzirJogadas(jogadaComputador)
         result_p.innerText = `O usuário jogou ${jogadaUsuario} e o computador jogou ${jogadaComputador}, vitória do computador`
@@ -112,11 +124,30 @@ function jokenpo(jogadaUsuario) {
 // adiciono uma função a ser executada se ocorrer um evento que eu determinar no elemento HTML.
 
 function principal(){
-  paperButton_img.addEventListener("click", ()=> jokenpo("paper"))
-  rockButton_img.addEventListener("click", function() {
-    jokenpo("rock")
-  })
-  scissorsButton_img.addEventListener("click", ()=> jokenpo("scissors"))
+  paperButton_img.addEventListener("click", ()=> jokenpo("paper"));
+  rockButton_img.addEventListener("click", ()=> jokenpo("rock"));
+  scissorsButton_img.addEventListener("click", ()=> jokenpo("scissors"));
+}
+ /**
+ * @param {paper, rock, scissors} jogado 
+ * @param {1, 0, -1} resultado 
+ */
+function destaqueBotao(jogado, resultado){
+  
+  // Capturo o botão clicado...
+  const botaoClicado = document.getElementById(jogado + 'Button');
+  
+  if(resultado == 1){
+    botaoClicado.classList.add("green-glow");
+    // setTimeout(() => {
+    //   botaoClicado.classList.remove("green-glow")
+    // }, 500);
+  } else if(resultado == -1){
+    botaoClicado.classList.add("red-glow");
+    // setTimeout(() => {
+    //   botaoClicado.classList.remove("red-glow")
+    // }, 500);
+  }
 }
 
 principal()
